@@ -113,14 +113,6 @@
     max-width: 100%;
     max-height: 240px;
     pointer-events: none;
-    transform-origin: center;
-    animation: drift 14s ease-in-out infinite alternate;
-  }
-
-  @keyframes drift {
-    0%   { transform: scale(1) translate(0, 0); }
-    50%  { transform: scale(1.08) translate(-1.5%, -1%); }
-    100% { transform: scale(1.04) translate(1.5%, 1%); }
   }
 
   @keyframes flow {
@@ -421,7 +413,7 @@
 
     <div id="status" aria-live="polite"></div>
 
-    <div class="footer">Amba Net &bull; Verifikasi</div>
+    <div class="footer">Amba Net</div>
 
     <audio id="sound" src="continue.mp3" preload="auto"></audio>
   </main>
