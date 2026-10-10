@@ -16,6 +16,7 @@
     --accent-dark: #075c56;
     --accent-soft: #d9f0ed;
     --ok: #178a4c;
+    --ok-soft: #e3f5ea;
     --err: #c8372d;
   }
 
@@ -38,11 +39,12 @@
   .card {
     width: 100%;
     max-width: 380px;
-    padding: 32px 28px 24px;
+    padding: 30px 28px 22px;
     background: var(--card);
     border: 1px solid var(--line);
     border-radius: 18px;
     box-shadow: 0 18px 40px -18px rgba(11, 80, 74, .35);
+    text-align: center;
     animation: cardIn .6s cubic-bezier(.2, .8, .2, 1) both;
   }
 
@@ -56,110 +58,123 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
-    margin-bottom: 6px;
   }
 
   .brand svg { width: 34px; height: 34px; }
 
+  .brand span {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -.3px;
+  }
+
+  /* ---------- Orb ---------- */
+  .orb {
+    position: relative;
+    width: 84px;
+    height: 84px;
+    margin: 26px auto 18px;
+    border-radius: 50%;
+    background: var(--accent-soft);
+    transition: background .4s;
+  }
+
+  .orb .ring {
+    position: absolute;
+    inset: 0;
+    border: 6px solid transparent;
+    border-top-color: var(--accent);
+    border-right-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    transition: border-color .4s;
+  }
+
+  .orb .ring.second {
+    inset: 12px;
+    border-width: 4px;
+    border-top-color: #35c2b5;
+    border-right-color: #35c2b5;
+    animation-duration: 1.6s;
+    animation-direction: reverse;
+  }
+
+  .orb svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .orb path {
+    fill: none;
+    stroke: var(--ok);
+    stroke-width: 5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 60;
+    stroke-dashoffset: 60;
+    transition: stroke-dashoffset .5s ease .15s;
+  }
+
+  .card.done .orb { background: var(--ok-soft); animation: pop .5s cubic-bezier(.3, 1.6, .5, 1); }
+  .card.done .orb .ring {
+    animation: none;
+    border-color: var(--ok);
+    transform: none;
+  }
+  .card.done .orb .ring.second { opacity: 0; }
+  .card.done .orb path { stroke-dashoffset: 0; }
+
   h1 {
     margin: 0;
-    font-size: 24px;
-    letter-spacing: -.3px;
+    font-size: 21px;
+    letter-spacing: -.2px;
   }
 
   .description {
     margin: 8px 0 0;
-    text-align: center;
     color: var(--muted);
     font-size: 14px;
     line-height: 1.55;
   }
 
-  /* ---------- Video ---------- */
-  .video-wrap {
-    position: relative;
-    margin: 20px auto 0;
-    width: fit-content;
-    max-width: 100%;
-    min-width: 200px;
-    min-height: 120px;
-    border-radius: 12px;
-    overflow: hidden;
-    border: 1px solid var(--line);
-    background: linear-gradient(120deg, #0b7a72, #35c2b5, #2b7fa8, #0b7a72);
-    background-size: 300% 300%;
-    animation: flow 6s ease-in-out infinite;
-  }
+  .swap { animation: fadeUp .4s ease both; }
 
-  .video-wrap video {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity .5s;
-  }
-
-  .video-wrap.ready video { opacity: 1; }
-
-  /* gambar bergerak pelan terus-menerus (zoom + geser) */
-  .hero-img {
-    position: relative;
-    display: block;
-    width: auto;
-    height: auto;
-    max-width: 100%;
-    max-height: 240px;
-    pointer-events: none;
-  }
-
-  @keyframes flow {
-    0%   { background-position: 0% 50%; }
-    50%  { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-
-  /* ---------- Checkbox ---------- */
-  .check {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin: 14px 0 16px;
+  /* ---------- Langkah verifikasi ---------- */
+  .steps {
+    list-style: none;
+    margin: 22px 0 0;
     padding: 14px 16px;
+    display: grid;
+    gap: 12px;
+    text-align: left;
     border: 1.5px solid var(--line);
     border-radius: 12px;
     background: #fafcfc;
-    cursor: pointer;
-    transition: border-color .2s, background .2s, box-shadow .2s;
   }
 
-  .check:hover { border-color: #9cc7c2; }
-
-  .check:has(input:focus-visible) {
-    box-shadow: 0 0 0 3px rgba(11, 122, 114, .3);
+  .steps li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    color: #8aa09d;
+    transition: color .3s;
   }
 
-  .check input {
-    position: absolute;
-    opacity: 0;
-    pointer-events: none;
-  }
-
-  .box {
+  .mark {
     position: relative;
     flex: none;
-    width: 26px;
-    height: 26px;
-    border: 2px solid #9fb5b2;
-    border-radius: 7px;
-    background: #fff;
-    transition: background .25s, border-color .25s, transform .25s;
+    width: 22px;
+    height: 22px;
+    border: 2px solid #c5d3d1;
+    border-radius: 50%;
+    transition: background .3s, border-color .3s;
   }
 
-  .box .ring {
+  .mark::before {
+    content: "";
     position: absolute;
     inset: -2px;
     border: 3px solid transparent;
@@ -169,191 +184,116 @@
     opacity: 0;
   }
 
-  .box svg {
+  .mark svg {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
   }
 
-  .box path {
+  .mark path {
     fill: none;
     stroke: #fff;
     stroke-width: 3;
     stroke-linecap: round;
     stroke-linejoin: round;
-    stroke-dasharray: 24;
-    stroke-dashoffset: 24;
-    transition: stroke-dashoffset .35s ease .05s;
+    stroke-dasharray: 20;
+    stroke-dashoffset: 20;
+    transition: stroke-dashoffset .3s ease .05s;
   }
 
-  .check input:checked + .box {
-    background: var(--accent);
-    border-color: var(--accent);
-  }
-
-  .check input:checked + .box path { stroke-dashoffset: 0; }
-
-  .check-text { font-size: 15px; font-weight: 500; }
-
-  /* kotak berubah jadi spinner saat loading */
-  .card.loading .box {
-    background: transparent;
-    border-color: transparent;
-    transform: scale(.92);
-  }
-  .card.loading .box svg { opacity: 0; }
-  .card.loading .box .ring {
+  .steps li.active { color: var(--ink); font-weight: 600; }
+  .steps li.active .mark { border-color: transparent; }
+  .steps li.active .mark::before {
     opacity: 1;
-    animation: spin .8s linear infinite;
-  }
-
-  /* kotak centang hijau saat sukses */
-  .card.success .box {
-    background: var(--ok);
-    border-color: var(--ok);
-    animation: pop .45s cubic-bezier(.3, 1.6, .5, 1);
-  }
-  .card.success .box svg { opacity: 1; }
-  .card.success .box .ring { opacity: 0; animation: none; }
-  .card.success .check {
-    border-color: #a8dcbf;
-    background: #f1faf5;
-  }
-
-  .card.loading .check { cursor: progress; }
-
-  /* ---------- Tombol ---------- */
-  #verifyBtn {
-    position: relative;
-    width: 100%;
-    height: 50px;
-    border: none;
-    border-radius: 12px;
-    background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-    color: #fff;
-    font: inherit;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    overflow: hidden;
-    transition: transform .15s, box-shadow .2s, background .3s, opacity .2s;
-    box-shadow: 0 8px 18px -8px rgba(11, 122, 114, .7);
-  }
-
-  #verifyBtn:not(:disabled):hover { transform: translateY(-1px); }
-  #verifyBtn:not(:disabled):active { transform: scale(.98); }
-
-  #verifyBtn:focus-visible {
-    outline: 3px solid rgba(11, 122, 114, .4);
-    outline-offset: 2px;
-  }
-
-  #verifyBtn:disabled {
-    cursor: not-allowed;
-    background: #c2cfcd;
-    box-shadow: none;
-  }
-
-  .btn-content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    height: 100%;
-  }
-
-  .btn-spinner {
-    display: none;
-    width: 18px;
-    height: 18px;
-    border: 3px solid rgba(255, 255, 255, .35);
-    border-top-color: #fff;
-    border-radius: 50%;
     animation: spin .7s linear infinite;
   }
 
-  /* garis kilau yang bergerak di tombol saat loading */
-  #verifyBtn::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, .28) 50%, transparent 70%);
-    transform: translateX(-100%);
-    opacity: 0;
-  }
-
-  .card.loading #verifyBtn,
-  .card.loading #verifyBtn:disabled {
-    cursor: progress;
-    background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-    box-shadow: 0 8px 18px -8px rgba(11, 122, 114, .7);
-  }
-  .card.loading .btn-spinner { display: block; }
-  .card.loading #verifyBtn::after {
-    opacity: 1;
-    animation: shine 1.3s ease-in-out infinite;
-  }
-
-  .card.success #verifyBtn,
-  .card.success #verifyBtn:disabled {
+  .steps li.finished { color: var(--ink); }
+  .steps li.finished .mark {
     background: var(--ok);
-    box-shadow: 0 8px 18px -8px rgba(23, 138, 76, .7);
-    cursor: default;
+    border-color: var(--ok);
   }
+  .steps li.finished .mark path { stroke-dashoffset: 0; }
 
   /* ---------- Progress ---------- */
   .progress {
     height: 5px;
-    margin-top: 14px;
+    margin-top: 16px;
     border-radius: 99px;
     background: var(--accent-soft);
     overflow: hidden;
-    opacity: 0;
-    transition: opacity .25s;
   }
-
-  .card.loading .progress,
-  .card.success .progress { opacity: 1; }
 
   .progress-bar {
     width: 0;
     height: 100%;
     border-radius: inherit;
     background: linear-gradient(90deg, var(--accent), #35c2b5);
-    transition: width .3s ease;
+    transition: width .6s ease, background .4s;
   }
 
-  .card.success .progress-bar { background: var(--ok); }
+  .card.done .progress-bar { background: var(--ok); }
 
-  /* ---------- Status ---------- */
+  /* ---------- Status / petunjuk ---------- */
   #status {
-    min-height: 22px;
-    margin-top: 14px;
-    text-align: center;
-    font-size: 14px;
+    min-height: 0;
+    margin-top: 0;
+    font-size: 13px;
     line-height: 1.5;
     color: var(--muted);
   }
 
-  #status.ok { color: var(--ok); font-weight: 600; }
+  #status:not(:empty) { margin-top: 14px; }
   #status.error { color: var(--err); }
 
-  #status.swap { animation: fadeUp .35s ease both; }
+  /* ---------- Foto muncul setelah selesai ---------- */
+  .reveal {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition: grid-template-rows .8s cubic-bezier(.2, .8, .2, 1), opacity .6s ease .15s;
+  }
+
+  .reveal-inner {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .card.done .reveal {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+
+  .photo {
+    padding-top: 20px;
+  }
+
+  .photo img {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 240px;
+    margin: 0 auto;
+    border-radius: 12px;
+    border: 1px solid var(--line);
+  }
 
   .footer {
-    margin-top: 16px;
+    margin-top: 18px;
     padding-top: 14px;
     border-top: 1px solid var(--line);
-    text-align: center;
     font-size: 12px;
     color: #8aa09d;
   }
 
   /* ---------- Keyframes ---------- */
-  @keyframes spin   { to { transform: rotate(360deg); } }
-  @keyframes shine  { to { transform: translateX(100%); } }
-  @keyframes pop    { 0% { transform: scale(.7); } 100% { transform: scale(1); } }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes pop {
+    0%   { transform: scale(.85); }
+    100% { transform: scale(1); }
+  }
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(6px); }
     to   { opacity: 1; transform: none; }
@@ -377,41 +317,38 @@
         <path d="M11 28 L20 11 L29 28" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
         <path d="M15 23 H25" stroke="#7fe0d6" stroke-width="3.2" stroke-linecap="round"/>
       </svg>
-      <h1>Amba Net</h1>
+      <span>Amba Net</span>
     </div>
 
-    <p class="description">
-      Satu langkah lagi. Verifikasi dulu ya, supaya kami tahu kamu bukan robot.
-    </p>
-
-    <!-- Ganti video.mp4 dengan video milikmu. Jalan otomatis, mute, dan berulang terus -->
-    <div class="video-wrap" id="videoWrap">
-      <img class="hero-img" src="IMG_20261010_122202_510.jpg" alt="" onerror="this.style.display='none'">
-      <video id="loopVideo" src="video.mp4" autoplay muted loop playsinline
-             preload="auto" disablepictureinpicture aria-hidden="true"></video>
+    <div class="orb" aria-hidden="true">
+      <span class="ring"></span>
+      <span class="ring second"></span>
+      <svg viewBox="0 0 84 84"><path d="M25 43 L38 56 L60 30"/></svg>
     </div>
 
-    <label class="check" id="checkRow">
-      <input type="checkbox" id="humanCheck">
-      <span class="box">
-        <span class="ring"></span>
-        <svg viewBox="0 0 26 26" aria-hidden="true"><path d="M7 13.5 L11.5 18 L19 9"/></svg>
-      </span>
-      <span class="check-text">Saya manusia, bukan robot</span>
-    </label>
+    <h1 id="title">Memeriksa koneksi kamu</h1>
+    <p class="description" id="desc">Tunggu sebentar, kami memastikan kamu bukan robot.</p>
 
-    <button id="verifyBtn" type="button" disabled>
-      <span class="btn-content">
-        <span class="btn-spinner" aria-hidden="true"></span>
-        <span id="btnLabel">Verifikasi</span>
-      </span>
-    </button>
+    <ul class="steps" id="steps">
+      <li><span class="mark"><svg viewBox="0 0 22 22" aria-hidden="true"><path d="M6 11.5 L9.5 15 L16 7.5"/></svg></span>Memeriksa perangkat</li>
+      <li><span class="mark"><svg viewBox="0 0 22 22" aria-hidden="true"><path d="M6 11.5 L9.5 15 L16 7.5"/></svg></span>Menganalisis perilaku</li>
+      <li><span class="mark"><svg viewBox="0 0 22 22" aria-hidden="true"><path d="M6 11.5 L9.5 15 L16 7.5"/></svg></span>Mencocokkan data</li>
+      <li><span class="mark"><svg viewBox="0 0 22 22" aria-hidden="true"><path d="M6 11.5 L9.5 15 L16 7.5"/></svg></span>Menyelesaikan verifikasi</li>
+    </ul>
 
     <div class="progress" aria-hidden="true">
       <div class="progress-bar" id="bar"></div>
     </div>
 
-    <div id="status" aria-live="polite"></div>
+    <div id="status" role="status" aria-live="polite"></div>
+
+    <div class="reveal" id="reveal">
+      <div class="reveal-inner">
+        <div class="photo">
+          <img src="IMG_20261010_122202_510.jpg" alt="" onerror="this.parentNode.style.display='none'">
+        </div>
+      </div>
+    </div>
 
     <div class="footer">Amba Net</div>
 
@@ -420,112 +357,94 @@
 
   <script>
     const card = document.getElementById("card");
-    const humanCheck = document.getElementById("humanCheck");
-    const verifyBtn = document.getElementById("verifyBtn");
-    const btnLabel = document.getElementById("btnLabel");
+    const title = document.getElementById("title");
+    const desc = document.getElementById("desc");
+    const stepEls = Array.from(document.querySelectorAll("#steps li"));
     const bar = document.getElementById("bar");
     const statusEl = document.getElementById("status");
     const sound = document.getElementById("sound");
 
-    const steps = [
-      { text: "Memeriksa perangkat...", at: 0,    progress: 25 },
-      { text: "Menganalisis perilaku...", at: 900,  progress: 55 },
-      { text: "Mencocokkan data...",   at: 1800, progress: 80 },
-      { text: "Hampir selesai...",     at: 2500, progress: 95 }
-    ];
-    // Video otomatis jalan terus-menerus (tanpa tombol play)
-    const loopVideo = document.getElementById("loopVideo");
-    const videoWrap = document.getElementById("videoWrap");
-    loopVideo.muted = true;
-    loopVideo.addEventListener("playing", () => videoWrap.classList.add("ready"));
-    loopVideo.addEventListener("error", () => videoWrap.classList.remove("ready"));
-    loopVideo.play().catch(() => {});
-    // Jika browser menunda autoplay, coba lagi di sentuhan/klik pertama
-    document.addEventListener("pointerdown", () => {
-      if (loopVideo.paused) loopVideo.play().catch(() => {});
-    }, { once: true });
+    // Lama tiap langkah (milidetik)
+    const durations = [1000, 1300, 1100, 900];
 
-    const TOTAL_MS = 3200;
-    let timers = [];
+    const sleep = ms => new Promise(r => setTimeout(r, ms));
 
-    function setStatus(text, type) {
-      statusEl.textContent = text;
-      statusEl.className = type || "";
-      void statusEl.offsetWidth;
-      statusEl.classList.add("swap");
+    function swapText(el, text) {
+      el.textContent = text;
+      el.classList.remove("swap");
+      void el.offsetWidth;
+      el.classList.add("swap");
     }
 
-    function clearTimers() {
-      timers.forEach(clearTimeout);
-      timers = [];
-    }
-
-    function reset() {
-      clearTimers();
-      card.classList.remove("loading", "success");
-      humanCheck.disabled = false;
-      humanCheck.checked = false;
-      verifyBtn.disabled = true;
-      btnLabel.textContent = "Verifikasi";
-      bar.style.width = "0";
-      setStatus("");
-    }
-
-    humanCheck.addEventListener("change", () => {
-      verifyBtn.disabled = !humanCheck.checked;
-      setStatus("");
-    });
-
-    verifyBtn.addEventListener("click", () => {
-      if (!humanCheck.checked || card.classList.contains("loading")) return;
-
-      // Buka izin audio selagi masih ada interaksi pengguna
-      sound.muted = true;
-      sound.play().then(() => {
-        sound.pause();
-        sound.currentTime = 0;
-        sound.muted = false;
-      }).catch(() => { sound.muted = false; });
-
-      // Mulai loading
-      card.classList.add("loading");
-      verifyBtn.disabled = true;
-      humanCheck.disabled = true;
-      btnLabel.textContent = "Memverifikasi...";
-
-      steps.forEach(step => {
-        timers.push(setTimeout(() => {
-          setStatus(step.text);
-          bar.style.width = step.progress + "%";
-        }, step.at));
-      });
-
-      timers.push(setTimeout(finish, TOTAL_MS));
-    });
-
-    async function finish() {
-      card.classList.remove("loading");
-      card.classList.add("success");
-      bar.style.width = "100%";
-      btnLabel.textContent = "Terverifikasi";
-      setStatus("Verifikasi berhasil!", "ok");
-
-      let hasSound = true;
+    async function playSound() {
       try {
         sound.currentTime = 0;
         await sound.play();
-      } catch (error) {
-        hasSound = false;
-        setStatus("Verifikasi berhasil, tetapi suara gagal diputar. Periksa file continue.mp3.", "error");
-      }
-
-      if (hasSound) {
-        sound.onended = () => timers.push(setTimeout(reset, 600));
-        sound.onerror = reset;
-      } else {
-        timers.push(setTimeout(reset, 3000));
+        return null;
+      } catch (err) {
+        return err;
       }
     }
+
+    const interactionEvents = ["pointerdown", "keydown", "touchstart"];
+
+    // Jika browser memblokir suara otomatis, putar diam-diam saat sentuhan/klik/tombol pertama
+    // (tanpa tulisan petunjuk apa pun)
+    function playOnFirstInteraction() {
+      const handler = () => {
+        interactionEvents.forEach(ev => window.removeEventListener(ev, handler));
+        playSound();
+      };
+      interactionEvents.forEach(ev => window.addEventListener(ev, handler));
+    }
+
+    // Jika pengunjung menyentuh halaman SEBELUM verifikasi selesai, buka izin audio
+    // secara senyap supaya suara bisa otomatis terputar saat selesai
+    function unlockAudioSilently() {
+      const handler = () => {
+        interactionEvents.forEach(ev => window.removeEventListener(ev, handler));
+        if (card.classList.contains("done")) return;
+        sound.muted = true;
+        sound.play().then(() => {
+          sound.pause();
+          sound.currentTime = 0;
+          sound.muted = false;
+        }).catch(() => { sound.muted = false; });
+      };
+      interactionEvents.forEach(ev => window.addEventListener(ev, handler));
+    }
+    unlockAudioSilently();
+
+    async function runVerification() {
+      await sleep(600);
+
+      for (let i = 0; i < stepEls.length; i++) {
+        stepEls[i].classList.add("active");
+        await sleep(durations[i]);
+        stepEls[i].classList.remove("active");
+        stepEls[i].classList.add("finished");
+        bar.style.width = ((i + 1) / stepEls.length * 100) + "%";
+      }
+
+      await sleep(500);
+
+      // Selesai: tampilkan hasil, foto, dan putar suara
+      card.classList.add("done");
+      swapText(title, "Verifikasi berhasil");
+      swapText(desc, "Kamu terverifikasi sebagai manusia.");
+
+      const err = await playSound();
+      if (err) {
+        if (err.name === "NotAllowedError") {
+          playOnFirstInteraction();
+        } else {
+          console.warn("Suara gagal diputar. Periksa file continue.mp3.", err);
+        }
+      }
+    }
+
+    runVerification();
   </script>
 </body>
-</html>
+                               </html>
+                               
